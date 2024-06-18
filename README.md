@@ -1,5 +1,7 @@
 # GIN-DDD - GIN领域设计框架
 
+### 原始项目路径: https://dencit.coding.net/public/GIN_EASY/GIN_EASY/git/files
+
 ___
 
 ###  demo模块目录-结构
