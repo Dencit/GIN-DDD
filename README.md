@@ -3,14 +3,15 @@
 
 ___
 
-### 原始项目路径: https://dencit.coding.net/public/GIN_EASY/GIN_EASY/git/files
+##  1.项目信息
 
+### 原始项目路径: https://dencit.coding.net/public/GIN_EASY/GIN_EASY/git/files
 ### 作者: Dencit - 陈鸿扬
 ### 邮箱: 632112883@qq.com
 
 ___
 
-##  demo模块-目录结构
+##  2.Demo模块-目录结构
 ~~~
 
 
@@ -50,7 +51,7 @@ postman [Postman导出接口]
 
 ---
 
-## demo模块-代码调用顺序
+## 3.Demo模块-代码调用顺序
 
 ~~~
 
@@ -97,10 +98,8 @@ postman [Postman导出接口]
 
 ---
 
-## demo模块-接口调用规范
+## 4.Demo模块-接口调用规范
 
-
-### 说明
 ~~~
 如果是自动生成的接口代码, 且执行主表自定义查询, 都默认支持下面这些查询query.
 ~~~
