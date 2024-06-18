@@ -1,0 +1,363 @@
+{
+	"info": {
+		"_postman_id": "97ac3dd2-38ee-46c2-9f33-67bd42c6e6b2",
+		"name": "GIN_EASY",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1907620",
+		"_collection_link": "https://blue-shadow-7517.postman.co/workspace/LIB~e0caa0d3-8b5c-4a7f-bf60-c5841a606113/collection/1907620-97ac3dd2-38ee-46c2-9f33-67bd42c6e6b2?action=share&source=collection_link&creator=1907620"
+	},
+	"item": [
+		{
+			"name": "Demo",
+			"item": [
+				{
+					"name": "示例-新增",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"abcde\",\r\n    \"mobile\":\"18588891945\",\r\n    \"sex\":1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/demo/sample/save",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"demo",
+								"sample",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "示例-更新-详情",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    //\"id\":\"1\",\r\n    \"name\":\"abcdefg\",\r\n    \"mobile\":\"18588891945\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/demo/sample/update/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"demo",
+								"sample",
+								"update",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "示例-删除-详情",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/demo/sample/delete/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"demo",
+								"sample",
+								"delete",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "示例-获取-详情",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/demo/sample/read/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"demo",
+								"sample",
+								"read",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "示例-获取-详情:需授权",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/demo/sample/read/1/usr",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"demo",
+								"sample",
+								"read",
+								"1",
+								"usr"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "示例-获取-列表-关联查询",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/demo/sample/index?_include=user,users",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"demo",
+								"sample",
+								"index"
+							],
+							"query": [
+								{
+									"key": "_include",
+									"value": "user,users"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "示例-获取-列表-筛选",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/demo/sample/index?_search=demo&mobile=185*",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"demo",
+								"sample",
+								"index"
+							],
+							"query": [
+								{
+									"key": "_search",
+									"value": "demo"
+								},
+								{
+									"key": "name",
+									"value": "123456",
+									"disabled": true
+								},
+								{
+									"key": "mobile",
+									"value": "185*"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "示例-获取-列表-排序",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/demo/sample/index?_sort=-id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"demo",
+								"sample",
+								"index"
+							],
+							"query": [
+								{
+									"key": "_sort",
+									"value": "-id"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "示例-获取-列表-翻页",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/demo/sample/index?_page=1&_page_size=50",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"demo",
+								"sample",
+								"index"
+							],
+							"query": [
+								{
+									"key": "_pagination",
+									"value": "false",
+									"disabled": true
+								},
+								{
+									"key": "_page",
+									"value": "1"
+								},
+								{
+									"key": "_page_size",
+									"value": "50"
+								},
+								{
+									"key": "_time",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "示例-获取-详情",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/user/user/read/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								"user",
+								"read",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
