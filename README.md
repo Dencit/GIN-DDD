@@ -1,11 +1,16 @@
-# GIN-DDD - GIN领域设计框架
 
-### 原始项目路径: https://dencit.coding.net/public/GIN_EASY/GIN_EASY/git/files
+# GIN-DDD - 领域设计版本
 
 ___
 
-###  demo模块目录-结构
+### 原始项目路径: https://dencit.coding.net/public/GIN_EASY/GIN_EASY/git/files
 
+### 作者: Dencit - 陈鸿扬
+### 邮箱: 632112883@qq.com
+
+___
+
+##  demo模块目录-结构
 ~~~
 
 port [端口/应用层]
@@ -31,9 +36,9 @@ base [基础层/基类]
 
 ~~~
 
-___
+---
 
-### demo模块目录-代码调用顺序
+## demo模块目录-代码调用顺序
 
 ~~~
 
@@ -77,3 +82,5 @@ ___
 以上示例模块代码,能够根据项目规范定制,这样就可以把最优代码整合起来,作为自动生成代码的模板.
 
 ~~~
+
+---
