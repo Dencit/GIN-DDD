@@ -19,25 +19,25 @@ type UserLogic struct{}
 
 //新增
 
-func (instance *UserLogic) Save(context *gin.Context) {
+func (receiver *UserLogic) Save(context *gin.Context) {
 
 }
 
 //更新
 
-func (instance *UserLogic) Update(context *gin.Context) {
+func (receiver *UserLogic) Update(context *gin.Context) {
 
 }
 
 //删除
 
-func (instance *UserLogic) Delete(context *gin.Context) {
+func (receiver *UserLogic) Delete(context *gin.Context) {
 
 }
 
 //详情
 
-func (instance *UserLogic) Read(context *gin.Context, id string) interface{} {
+func (receiver *UserLogic) Read(context *gin.Context, id string) interface{} {
 
 	userRepo := UserRepo.UserRepo(context)
 	result := userRepo.Read(id)
@@ -47,7 +47,7 @@ func (instance *UserLogic) Read(context *gin.Context, id string) interface{} {
 
 //列表
 
-func (instance *UserLogic) Index(context *gin.Context, query map[string]any) (interface{}, map[string]any) {
+func (receiver *UserLogic) Index(context *gin.Context, query map[string]any) (interface{}, map[string]any) {
 
 	//主表筛选逻辑-获取query查询表达式参数
 	matchQuery := match_query.Instance(query)

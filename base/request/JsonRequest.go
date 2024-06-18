@@ -29,12 +29,12 @@ func Json(context *gin.Context) *JsonRequestStruct {
 
 //接收所有参数
 
-func (instance *JsonRequestStruct) Input(std interface{}) map[string]any {
-	err := instance.Ctx.ShouldBindJSON(&std)
+func (receiver *JsonRequestStruct) Input(std interface{}) map[string]any {
+	err := receiver.Ctx.ShouldBindJSON(&std)
 	if err != nil {
 		Code, _ := BaseErr.Root("VALIDATION_ERROR")
 		Message := err.Error()
-		exception.App(instance.Ctx, Code, Message)
+		exception.App(receiver.Ctx, Code, Message)
 	}
 	jsonMap := structs.ToMap(std)
 	return jsonMap
@@ -42,12 +42,12 @@ func (instance *JsonRequestStruct) Input(std interface{}) map[string]any {
 
 //只接收指定参数
 
-func (instance *JsonRequestStruct) Only(std interface{}, Keys []string) map[string]any {
-	err := instance.Ctx.ShouldBindJSON(&std)
+func (receiver *JsonRequestStruct) Only(std interface{}, Keys []string) map[string]any {
+	err := receiver.Ctx.ShouldBindJSON(&std)
 	if err != nil {
 		Code, _ := BaseErr.Root("VALIDATION_ERROR")
 		Message := err.Error()
-		exception.App(instance.Ctx, Code, Message)
+		exception.App(receiver.Ctx, Code, Message)
 	}
 	jsonMap := structs.ToMap(std)
 	for jsonKey := range jsonMap {
@@ -61,12 +61,12 @@ func (instance *JsonRequestStruct) Only(std interface{}, Keys []string) map[stri
 
 //不接收指定参数
 
-func (instance *JsonRequestStruct) Except(std interface{}, Keys []string) map[string]any {
-	err := instance.Ctx.ShouldBindJSON(&std)
+func (receiver *JsonRequestStruct) Except(std interface{}, Keys []string) map[string]any {
+	err := receiver.Ctx.ShouldBindJSON(&std)
 	if err != nil {
 		Code, _ := BaseErr.Root("VALIDATION_ERROR")
 		Message := err.Error()
-		exception.App(instance.Ctx, Code, Message)
+		exception.App(receiver.Ctx, Code, Message)
 	}
 	jsonMap := structs.ToMap(std)
 	for jsonKey := range jsonMap {

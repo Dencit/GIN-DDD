@@ -31,7 +31,7 @@ type BaseEntityStruct struct {
 
 // 连接实例-初始化
 
-func (instance *BaseEntityStruct) Connector(connName string) *gorm.DB {
+func (receiver *BaseEntityStruct) Connector(connName string) *gorm.DB {
 
 	//获取原子标记
 	connSync, _ := connectorSync.Load(connName)
@@ -74,9 +74,9 @@ func (instance *BaseEntityStruct) Connector(connName string) *gorm.DB {
 			TraceResolverMode: traceResolver,                                            //打印 源/副本 日志
 		}
 		var resolverReg = dbresolver.Register(resolverConf).
-			SetMaxIdleConns(10). //设置连接池的最大闲置连接数
-			SetMaxOpenConns(100). //设置连接池中的最大连接数量
-			SetConnMaxIdleTime(time.Hour). //设置连接的最大闲置时间
+			SetMaxIdleConns(10).              //设置连接池的最大闲置连接数
+			SetMaxOpenConns(100).             //设置连接池中的最大连接数量
+			SetConnMaxIdleTime(time.Hour).    //设置连接的最大闲置时间
 			SetConnMaxLifetime(1 * time.Hour) //设置连接的最大复用时间
 		connector.Use(resolverReg)
 

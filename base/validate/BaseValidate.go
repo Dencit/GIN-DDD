@@ -34,14 +34,14 @@ func Check(context *gin.Context) *BaseValidateStruct {
 
 //加载验证设置
 
-func (instance *BaseValidateStruct) Command(std interface{}) interface{} {
+func (receiver *BaseValidateStruct) Command(std interface{}) interface{} {
 	validate := validator.New()
 	err := validate.Struct(std)
 	if err != nil {
 		if errors, ok := err.(validator.ValidationErrors); ok {
 			Code, _ := BaseErr.Root("VALIDATION_ERROR")
 			Message := strs.ToStr(errors[0])
-			exception.App(instance.ValCtx, Code, Message)
+			exception.App(receiver.ValCtx, Code, Message)
 		}
 	}
 	return std

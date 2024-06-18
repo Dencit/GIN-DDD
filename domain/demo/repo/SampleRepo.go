@@ -40,7 +40,7 @@ func SampleRepo(context *gin.Context) *SampleRepoStruct {
 
 //新增
 
-func (instance *SampleRepoStruct) SaveOrFail(input map[string]any) interface{} {
+func (receiver *SampleRepoStruct) SaveOrFail(input map[string]any) interface{} {
 	entity := DemoEntity.Sample{
 		Name: strs.ToStr(input["name"]),
 	}
@@ -57,7 +57,7 @@ func (instance *SampleRepoStruct) SaveOrFail(input map[string]any) interface{} {
 
 //更新
 
-func (instance *SampleRepoStruct) UpdateOrFail(id string, input map[string]any) interface{} {
+func (receiver *SampleRepoStruct) UpdateOrFail(id string, input map[string]any) interface{} {
 	builder := DemoEntity.SampleEntity()
 	builder.Where("id = ?", id)
 	result := builder.Updates(&input)
@@ -72,7 +72,7 @@ func (instance *SampleRepoStruct) UpdateOrFail(id string, input map[string]any) 
 
 //删除
 
-func (instance *SampleRepoStruct) DeleteOrFail(id string) interface{} {
+func (receiver *SampleRepoStruct) DeleteOrFail(id string) interface{} {
 	input := make(map[string]any)
 	builder := DemoEntity.SampleEntity()
 	builder.Where("id = ?", id)
@@ -88,7 +88,7 @@ func (instance *SampleRepoStruct) DeleteOrFail(id string) interface{} {
 
 //详情
 
-func (instance *SampleRepoStruct) Read(id string) interface{} {
+func (receiver *SampleRepoStruct) Read(id string) interface{} {
 	entity := DemoEntity.Sample{}
 	builder := DemoEntity.SampleEntity()
 	builder.Where("id = ?", id)
@@ -110,7 +110,7 @@ func (instance *SampleRepoStruct) Read(id string) interface{} {
 
 //列表筛选
 
-func (instance *SampleRepoStruct) Index(matchQuery *match_query.MatchQueryStruct) (interface{}, map[string]any) {
+func (receiver *SampleRepoStruct) Index(matchQuery *match_query.MatchQueryStruct) (interface{}, map[string]any) {
 
 	//实例化模型实体
 	var entityList []DemoEntity.Sample
@@ -178,7 +178,7 @@ func (instance *SampleRepoStruct) Index(matchQuery *match_query.MatchQueryStruct
 
 //不存在则拦截
 
-func (instance *SampleRepoStruct) IsNotExit(id string) interface{} {
+func (receiver *SampleRepoStruct) IsNotExit(id string) interface{} {
 	entity := DemoEntity.Sample{}
 	builder := DemoEntity.SampleEntity()
 	builder.Where("id = ?", id)
@@ -194,7 +194,7 @@ func (instance *SampleRepoStruct) IsNotExit(id string) interface{} {
 
 //是否存在
 
-func (instance *SampleRepoStruct) IsHave(id string) interface{} {
+func (receiver *SampleRepoStruct) IsHave(id string) interface{} {
 	entity := DemoEntity.Sample{}
 	builder := DemoEntity.SampleEntity()
 	builder.Where("id = ?", id)

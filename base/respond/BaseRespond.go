@@ -23,7 +23,7 @@ type BaseRespondStruct struct {
 
 //一般输出
 
-func (instance *BaseRespondStruct) Respond(context *gin.Context, tableEntity interface{}, httpStatus int) {
+func (receiver *BaseRespondStruct) Respond(context *gin.Context, tableEntity interface{}, httpStatus int) {
 	//定义结构
 	var jsonStruct struct {
 		Code    uint        `json:"code"`
@@ -46,7 +46,7 @@ func (instance *BaseRespondStruct) Respond(context *gin.Context, tableEntity int
 
 //多行输出+meta
 
-func (instance *BaseRespondStruct) RespondCollect(context *gin.Context, tableCollectStruct interface{}, metas map[string]any, httpStatus int) {
+func (receiver *BaseRespondStruct) RespondCollect(context *gin.Context, tableCollectStruct interface{}, metas map[string]any, httpStatus int) {
 	//定义结构
 	var jsonStruct struct {
 		Code    uint        `json:"code"`

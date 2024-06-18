@@ -13,14 +13,14 @@ type SampleCmd struct {
 
 //任务执行
 
-func (instance *SampleCmd) Exec(param map[string]any) {
+func (receiver *SampleCmd) Exec(param map[string]any) {
 
 	// 系统日志
 	sysLog := log.New(os.Stdout, "cron: ", log.LstdFlags)
-	instance.sysLog = sysLog
+	receiver.sysLog = sysLog
 
 	//test
-	instance.sysLog.Println("sampleCmd.Execute:", param["action"]) //
+	receiver.sysLog.Println("sampleCmd.Execute:", param["action"]) //
 
 	return
 }

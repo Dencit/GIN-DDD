@@ -31,52 +31,52 @@ func Json(context *gin.Context) *HttpRespondStruct {
 
 //新增数据结果返回
 
-func (instance *HttpRespondStruct) Save(tableEntity interface{}) {
+func (receiver *HttpRespondStruct) Save(tableEntity interface{}) {
 	jsonBytes, _ := json.Marshal(tableEntity)
 	jsonStr := string(jsonBytes)
 	json.Unmarshal([]byte(jsonStr), &tableEntity)
-	instance.Respond(respCtx, tableEntity, http.StatusCreated)
+	receiver.Respond(respCtx, tableEntity, http.StatusCreated)
 }
 
 //更新数据结果返回
 
-func (instance *HttpRespondStruct) Update(tableEntity interface{}) {
+func (receiver *HttpRespondStruct) Update(tableEntity interface{}) {
 	jsonBytes, _ := json.Marshal(tableEntity)
 	jsonStr := string(jsonBytes)
 	json.Unmarshal([]byte(jsonStr), &tableEntity)
-	instance.Respond(respCtx, tableEntity, http.StatusAccepted)
+	receiver.Respond(respCtx, tableEntity, http.StatusAccepted)
 }
 
 //输出数据结果返回
 
-func (instance *HttpRespondStruct) Delete() {
-	instance.Respond(respCtx, nil, http.StatusNoContent)
+func (receiver *HttpRespondStruct) Delete() {
+	receiver.Respond(respCtx, nil, http.StatusNoContent)
 }
 
 //输出单行数组
 
-func (instance *HttpRespondStruct) Read(tableEntity interface{}) {
+func (receiver *HttpRespondStruct) Read(tableEntity interface{}) {
 
 	jsonBytes, _ := json.Marshal(tableEntity)
 	jsonStr := string(jsonBytes)
 	json.Unmarshal([]byte(jsonStr), &tableEntity)
-	instance.Respond(respCtx, tableEntity, http.StatusOK)
+	receiver.Respond(respCtx, tableEntity, http.StatusOK)
 }
 
 //输出多行数组
 
-func (instance *HttpRespondStruct) Index(tableCollectEntity interface{}, metaMap map[string]any) {
+func (receiver *HttpRespondStruct) Index(tableCollectEntity interface{}, metaMap map[string]any) {
 
 	fieldJsonBytes, _ := json.Marshal(tableCollectEntity)
 	fieldJsonStr := string(fieldJsonBytes)
 	json.Unmarshal([]byte(fieldJsonStr), &tableCollectEntity)
 
-	instance.RespondCollect(respCtx, tableCollectEntity, metaMap, http.StatusOK)
+	receiver.RespondCollect(respCtx, tableCollectEntity, metaMap, http.StatusOK)
 }
 
 //输出多行数组+翻页字段
 
-func (instance *HttpRespondStruct) IndexPage(fields interface{}, tableCollectStruct interface{}) {
+func (receiver *HttpRespondStruct) IndexPage(fields interface{}, tableCollectStruct interface{}) {
 
 	fieldJsonBytes, _ := json.Marshal(fields)
 	fieldJsonStr := string(fieldJsonBytes)
@@ -93,5 +93,5 @@ func (instance *HttpRespondStruct) IndexPage(fields interface{}, tableCollectStr
 	metaMap["per_page"] = perPage
 	metaMap["page"] = page
 
-	instance.RespondCollect(respCtx, tableCollectStruct, metaMap, http.StatusOK)
+	receiver.RespondCollect(respCtx, tableCollectStruct, metaMap, http.StatusOK)
 }

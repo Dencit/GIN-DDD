@@ -19,7 +19,7 @@ type SampleLogic struct{}
 
 //新增
 
-func (instance *SampleLogic) Save(context *gin.Context, input map[string]any) interface{} {
+func (receiver *SampleLogic) Save(context *gin.Context, input map[string]any) interface{} {
 
 	sampleRepo := DemoRepo.SampleRepo(context)
 	result := sampleRepo.SaveOrFail(input)
@@ -29,7 +29,7 @@ func (instance *SampleLogic) Save(context *gin.Context, input map[string]any) in
 
 //更新
 
-func (instance *SampleLogic) Update(context *gin.Context, id string, input map[string]any) interface{} {
+func (receiver *SampleLogic) Update(context *gin.Context, id string, input map[string]any) interface{} {
 
 	sampleRepo := DemoRepo.SampleRepo(context)
 	sampleRepo.IsNotExit(id)
@@ -41,7 +41,7 @@ func (instance *SampleLogic) Update(context *gin.Context, id string, input map[s
 
 //删除
 
-func (instance *SampleLogic) Delete(context *gin.Context, id string) interface{} {
+func (receiver *SampleLogic) Delete(context *gin.Context, id string) interface{} {
 
 	sampleRepo := DemoRepo.SampleRepo(context)
 	sampleRepo.IsNotExit(id)
@@ -53,7 +53,7 @@ func (instance *SampleLogic) Delete(context *gin.Context, id string) interface{}
 
 //详情
 
-func (instance *SampleLogic) Read(context *gin.Context, id string) interface{} {
+func (receiver *SampleLogic) Read(context *gin.Context, id string) interface{} {
 
 	sampleRepo := DemoRepo.SampleRepo(context)
 	result := sampleRepo.Read(id)
@@ -63,7 +63,7 @@ func (instance *SampleLogic) Read(context *gin.Context, id string) interface{} {
 
 //列表
 
-func (instance *SampleLogic) Index(context *gin.Context, query map[string]any) (interface{}, map[string]any) {
+func (receiver *SampleLogic) Index(context *gin.Context, query map[string]any) (interface{}, map[string]any) {
 	//主表筛选逻辑-获取query查询表达式参数
 	matchQuery := match_query.Instance(query)
 	log.Println("query::", query) //

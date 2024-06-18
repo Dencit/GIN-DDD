@@ -20,7 +20,7 @@ type UserController struct{}
 
 //详情
 
-func (instance *UserController) Read(context *gin.Context) {
+func (receiver *UserController) Read(context *gin.Context) {
 	id := context.Param("id")
 
 	//业务逻辑
@@ -31,7 +31,7 @@ func (instance *UserController) Read(context *gin.Context) {
 
 //列表
 
-func (instance *UserController) Index(context *gin.Context) {
+func (receiver *UserController) Index(context *gin.Context) {
 	//query
 	queryStd := UserQuery.UserQuery{}
 	query := request.Query(context).Get(&queryStd)

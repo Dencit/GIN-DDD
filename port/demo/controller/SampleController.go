@@ -22,7 +22,7 @@ type SampleController struct{}
 
 //新增
 
-func (instance *SampleController) Save(context *gin.Context) {
+func (receiver *SampleController) Save(context *gin.Context) {
 
 	//输入验证
 	inputStd := DemoRequest.SampleSave{}
@@ -37,7 +37,7 @@ func (instance *SampleController) Save(context *gin.Context) {
 
 //更新
 
-func (instance *SampleController) Update(context *gin.Context) {
+func (receiver *SampleController) Update(context *gin.Context) {
 
 	//路径ID
 	id := context.Param("id")
@@ -55,7 +55,7 @@ func (instance *SampleController) Update(context *gin.Context) {
 
 //删除
 
-func (instance *SampleController) Delete(context *gin.Context) {
+func (receiver *SampleController) Delete(context *gin.Context) {
 	//路径ID
 	id := context.Param("id")
 
@@ -67,7 +67,7 @@ func (instance *SampleController) Delete(context *gin.Context) {
 
 //详情
 
-func (instance *SampleController) Read(context *gin.Context) {
+func (receiver *SampleController) Read(context *gin.Context) {
 	id := context.Param("id")
 
 	//业务逻辑
@@ -78,7 +78,7 @@ func (instance *SampleController) Read(context *gin.Context) {
 
 //列表
 
-func (instance *SampleController) Index(context *gin.Context) {
+func (receiver *SampleController) Index(context *gin.Context) {
 	//query
 	queryStd := DemoQuery.SampleQuery{}
 	query := request.Query(context).Get(&queryStd)

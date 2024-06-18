@@ -55,48 +55,48 @@ func Query(context *gin.Context) *QueryRequestStruct {
 
 //获取所有参数
 
-func (instance *QueryRequestStruct) Get(std interface{}) map[string]any {
-	err := instance.Ctx.ShouldBindQuery(std)
+func (receiver *QueryRequestStruct) Get(std interface{}) map[string]any {
+	err := receiver.Ctx.ShouldBindQuery(std)
 	if err != nil {
 		log.Println("SetQuery::", err.Error())
 	}
 	valueQueryMap := structs.ToMap(std)
-	instance.QueryMap = arrs.Merge(valueQueryMap, instance.QueryMap)
-	return instance.QueryMap
+	receiver.QueryMap = arrs.Merge(valueQueryMap, receiver.QueryMap)
+	return receiver.QueryMap
 }
 
 //只获取指定参数
 
-func (instance *QueryRequestStruct) Only(std interface{}, Keys []string) map[string]any {
-	err := instance.Ctx.ShouldBindQuery(std)
+func (receiver *QueryRequestStruct) Only(std interface{}, Keys []string) map[string]any {
+	err := receiver.Ctx.ShouldBindQuery(std)
 	if err != nil {
 		log.Println("SetQuery::", err.Error())
 	}
 	valueQueryMap := structs.ToMap(std)
-	instance.QueryMap = arrs.Merge(valueQueryMap, instance.QueryMap)
-	for QueryKey := range instance.QueryMap {
+	receiver.QueryMap = arrs.Merge(valueQueryMap, receiver.QueryMap)
+	for QueryKey := range receiver.QueryMap {
 		match := arrs.InArray(QueryKey, Keys)
 		if match == false {
-			delete(instance.QueryMap, QueryKey)
+			delete(receiver.QueryMap, QueryKey)
 		}
 	}
-	return instance.QueryMap
+	return receiver.QueryMap
 }
 
 //不获取指定参数
 
-func (instance *QueryRequestStruct) Except(std interface{}, Keys []string) map[string]any {
-	err := instance.Ctx.ShouldBindQuery(std)
+func (receiver *QueryRequestStruct) Except(std interface{}, Keys []string) map[string]any {
+	err := receiver.Ctx.ShouldBindQuery(std)
 	if err != nil {
 		log.Println("SetQuery::", err.Error())
 	}
 	valueQueryMap := structs.ToMap(std)
-	instance.QueryMap = arrs.Merge(valueQueryMap, instance.QueryMap)
-	for QueryKey := range instance.QueryMap {
+	receiver.QueryMap = arrs.Merge(valueQueryMap, receiver.QueryMap)
+	for QueryKey := range receiver.QueryMap {
 		match := arrs.InArray(QueryKey, Keys)
 		if match == true {
-			delete(instance.QueryMap, QueryKey)
+			delete(receiver.QueryMap, QueryKey)
 		}
 	}
-	return instance.QueryMap
+	return receiver.QueryMap
 }

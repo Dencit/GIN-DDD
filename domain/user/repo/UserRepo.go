@@ -40,7 +40,7 @@ func UserRepo(context *gin.Context) *UserRepoStruct {
 
 //新增
 
-func (instance *UserRepoStruct) SaveOrFail(input map[string]any) interface{} {
+func (receiver *UserRepoStruct) SaveOrFail(input map[string]any) interface{} {
 	entity := UserEntity.User{
 		Name: strs.ToStr(input["name"]),
 	}
@@ -57,7 +57,7 @@ func (instance *UserRepoStruct) SaveOrFail(input map[string]any) interface{} {
 
 //更新
 
-func (instance *UserRepoStruct) UpdateOrFail(id string, input map[string]interface{}) interface{} {
+func (receiver *UserRepoStruct) UpdateOrFail(id string, input map[string]interface{}) interface{} {
 	builder := UserEntity.UserEntity()
 	builder.Where("id = ?", id)
 	result := builder.Updates(&input)
@@ -72,7 +72,7 @@ func (instance *UserRepoStruct) UpdateOrFail(id string, input map[string]interfa
 
 //删除
 
-func (instance *UserRepoStruct) DeleteOrFail(id string) interface{} {
+func (receiver *UserRepoStruct) DeleteOrFail(id string) interface{} {
 	input := make(map[string]any)
 	builder := UserEntity.UserEntity()
 	builder.Where("id = ?", id)
@@ -88,7 +88,7 @@ func (instance *UserRepoStruct) DeleteOrFail(id string) interface{} {
 
 //详情
 
-func (instance *UserRepoStruct) Read(id string) interface{} {
+func (receiver *UserRepoStruct) Read(id string) interface{} {
 	entity := UserEntity.User{}
 	builder := UserEntity.UserEntity()
 	builder.Where("id = ?", id)
@@ -103,7 +103,7 @@ func (instance *UserRepoStruct) Read(id string) interface{} {
 
 //列表筛选
 
-func (instance *UserRepoStruct) Index(matchQuery *match_query.MatchQueryStruct) (interface{}, map[string]any) {
+func (receiver *UserRepoStruct) Index(matchQuery *match_query.MatchQueryStruct) (interface{}, map[string]any) {
 
 	//实例化模型实体
 	var entityList []UserEntity.User
@@ -169,7 +169,7 @@ func (instance *UserRepoStruct) Index(matchQuery *match_query.MatchQueryStruct) 
 
 //不存在则拦截
 
-func (instance *UserRepoStruct) IsNotExit(id string) interface{} {
+func (receiver *UserRepoStruct) IsNotExit(id string) interface{} {
 	entity := UserEntity.User{}
 	builder := UserEntity.UserEntity()
 	builder.Where("id = ?", id)
@@ -185,7 +185,7 @@ func (instance *UserRepoStruct) IsNotExit(id string) interface{} {
 
 //是否存在
 
-func (instance *UserRepoStruct) IsHave(id string) interface{} {
+func (receiver *UserRepoStruct) IsHave(id string) interface{} {
 	entity := UserEntity.User{}
 	builder := UserEntity.UserEntity()
 	builder.Where("id = ?", id)
