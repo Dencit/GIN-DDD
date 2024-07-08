@@ -9,7 +9,6 @@ import (
 	DemoQuery "app/port/demo/query"
 	DemoRequest "app/port/demo/request"
 	"github.com/gin-gonic/gin"
-	"log"
 	"time"
 )
 
@@ -111,10 +110,6 @@ func (receiver *SampleController) Index(context *gin.Context) {
 		*result, *meta = (&DemoLogic.SampleLogic{}).Index(context, query)
 
 	}, 300*time.Second)
-
-	res := apiCache.GetCollect(hKey, "db_total")
-	log.Println("res.Data::", res.Data)             //
-	log.Println("res.Meta.Count::", res.Meta.Count) //
 
 	respond.Json(context).Index(result, meta)
 }
