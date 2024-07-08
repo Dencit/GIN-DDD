@@ -12,6 +12,10 @@ import (
 	"strings"
 )
 
+/**
+desc: query查询表达式参数 获取工具
+*/
+
 type QueryMatchStructInterface interface {
 }
 
@@ -20,13 +24,13 @@ type MatchQueryStruct struct {
 	RequestQuery map[string]any
 }
 
-type MataStruct struct {
-	Pagination bool `json:"pagination"`
-	Page       int  `json:"page"`
-	PageSize   int  `json:"page_size"`
-	Offset     int  `json:"offset"`
-	//PageTotal  int  `json:"page_total"`
-	Total int64 `json:"total"`
+type MetaStruct struct {
+	Pagination bool    `json:"pagination"`
+	Page       int     `json:"page"`
+	PageSize   int     `json:"page_size"`
+	Offset     int     `json:"offset"`
+	PageTotal  float64 `json:"page_total"`
+	Total      int64   `json:"total"`
 }
 
 func Instance(requestQuery map[string]any) *MatchQueryStruct {
@@ -61,13 +65,13 @@ func (receiver *MatchQueryStruct) Search(rule map[string]string, filterArr map[s
 		// todo::待定
 	}
 	if !maps.IsEmpty(queryArr) {
-		maps.Walk(queryArr, func(value any, key any) {
+		maps.Walk(queryArr, func(value any, keyName any) {
 			//log.Println("back::", value, key)//
-			keyName := strs.ToStr(key)
+			key := strs.ToStr(keyName)
 			valueName := strs.ToStr(value)
 			operator := "="
-			if maps.IsSet(rule[keyName]) {
-				operator = rule[keyName]
+			if maps.IsSet(rule[key]) {
+				operator = rule[key]
 			}
 			//log.Println("operator::", operator)//
 			//筛选运算符预处理
@@ -76,7 +80,7 @@ func (receiver *MatchQueryStruct) Search(rule map[string]string, filterArr map[s
 			if valueName != "" {
 				//currArr := []any{keyName + " " + ope + " ?", val}
 				//searchArr = append(searchArr, currArr)
-				currKey := keyName + " " + ope + " ?"
+				currKey := key + " " + ope + " ?"
 				searchArr[currKey] = val
 			}
 		})
@@ -163,7 +167,7 @@ func (receiver *MatchQueryStruct) sortOperator(orderStr string) string {
 	return sortStr
 }
 
-func (receiver *MatchQueryStruct) Pagination() (mataStruct MataStruct, metaMap map[string]any) {
+func (receiver *MatchQueryStruct) Pagination() (metaStruct MetaStruct, metaMap map[string]any) {
 	//默认值
 	pagination := true
 	page, pageSize := 1, 20
@@ -187,15 +191,15 @@ func (receiver *MatchQueryStruct) Pagination() (mataStruct MataStruct, metaMap m
 	}
 	offset = (page - 1) * pageSize
 
-	mataStruct = MataStruct{
+	metaStruct = MetaStruct{
 		Pagination: pagination,
 		Page:       page,
 		PageSize:   pageSize,
 		Offset:     offset,
-		//PageTotal:  0,
-		Total: 0,
+		PageTotal:  0,
+		Total:      0,
 	}
-	metaMap = structs.ToMap(&mataStruct)
+	metaMap = structs.ToMap(&metaStruct)
 
-	return mataStruct, metaMap
+	return metaStruct, metaMap
 }

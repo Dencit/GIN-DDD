@@ -37,7 +37,7 @@ func (receiver *UserController) Index(context *gin.Context) {
 	query := request.Query(context).Get(&queryStd)
 
 	//业务逻辑
-	result, mata := (&UserLogic.UserLogic{}).Index(context, query)
+	result, meta := (&UserLogic.UserLogic{}).Index(context, query)
 
-	respond.Json(context).Index(result, mata)
+	respond.Json(context).Index(result, meta)
 }

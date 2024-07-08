@@ -4,10 +4,13 @@ import (
 	"app/base/request"
 	"app/base/respond"
 	"app/base/validate"
+	ApiCache "app/extend/api-cache"
 	DemoLogic "app/port/demo/logic"
 	DemoQuery "app/port/demo/query"
 	DemoRequest "app/port/demo/request"
 	"github.com/gin-gonic/gin"
+	"log"
+	"time"
 )
 
 /**
@@ -68,10 +71,24 @@ func (receiver *SampleController) Delete(context *gin.Context) {
 //详情
 
 func (receiver *SampleController) Read(context *gin.Context) {
+	//path
 	id := context.Param("id")
 
-	//业务逻辑
-	result := (&DemoLogic.SampleLogic{}).Read(context, id)
+	//query
+	queryStd := DemoQuery.SampleQuery{}
+	query := request.Query(context).Get(&queryStd)
+
+	//检查url参数缓存
+	apiCache := ApiCache.Instance(query)
+	hKey := apiCache.HKeyByClassMethod("sample@read")
+	queryKey := apiCache.QueryKeyByRequest(query) + "&id=" + id
+	//缓存闭包
+	result, _ := apiCache.Collect(hKey, queryKey, func(result *any, meta *any) {
+
+		//业务逻辑 - 修改实参
+		*result = (&DemoLogic.SampleLogic{}).Read(context, id)
+
+	}, 300*time.Second)
 
 	respond.Json(context).Read(result)
 }
@@ -83,8 +100,21 @@ func (receiver *SampleController) Index(context *gin.Context) {
 	queryStd := DemoQuery.SampleQuery{}
 	query := request.Query(context).Get(&queryStd)
 
-	//业务逻辑
-	result, mata := (&DemoLogic.SampleLogic{}).Index(context, query)
+	//检查url参数缓存
+	apiCache := ApiCache.Instance(query)
+	hKey := apiCache.HKeyByClassMethod("sample@index")
+	queryKey := apiCache.QueryKeyByRequest(query)
+	//缓存闭包
+	result, meta := apiCache.Collect(hKey, queryKey, func(result *any, meta *any) {
 
-	respond.Json(context).Index(result, mata)
+		//业务逻辑 - 修改实参
+		*result, *meta = (&DemoLogic.SampleLogic{}).Index(context, query)
+
+	}, 300*time.Second)
+
+	res := apiCache.GetCollect(hKey, "db_total")
+	log.Println("res.Data::", res.Data)             //
+	log.Println("res.Meta.Count::", res.Meta.Count) //
+
+	respond.Json(context).Index(result, meta)
 }

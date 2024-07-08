@@ -1,6 +1,9 @@
 package maps
 
-import "fmt"
+import (
+	"fmt"
+	"sort"
+)
 
 // 检查 字典 为空
 func IsEmpty[K comparable, V comparable](strMap map[K]V) bool {
@@ -16,6 +19,16 @@ func IsSet(string any) bool {
 		return false
 	}
 	return true
+}
+
+//获取字典键值
+
+func Keys(mapArr map[string]any) sort.StringSlice {
+	var keys sort.StringSlice
+	for key := range mapArr {
+		keys = append(keys, key)
+	}
+	return keys
 }
 
 func DiffKey(mapArr1 map[string]any, mapArr2 map[string]any) map[string]any {
@@ -41,13 +54,43 @@ func InMap(keyName string, strMap map[string]any) bool {
 	return res
 }
 
-// 闭包声明
-type WalkCallback func(value any, key any)
+//闭包声明
 
-// 闭包遍历数组
-func Walk[K comparable, V comparable](array map[K]V, callback WalkCallback) {
+type walkCallback func(value any, keyName any)
+
+//闭包遍历数组
+
+func Walk[K comparable, V comparable](array map[K]V, callback walkCallback) {
 	for key, value := range array {
 		//log.Println("call::", value, key)//
 		callback(value, key)
 	}
+}
+
+//字典升序 - 通过回调方法 取参数
+
+func KSort(mapArr map[string]any, callback walkCallback) {
+	//获取字典键值
+	keys := Keys(mapArr)
+	//升序
+	sort.Sort(keys)
+	//赋值
+	for _, keyName := range keys {
+		callback(mapArr[keyName], keyName)
+	}
+	return
+}
+
+//字典倒序 - 通过回调方法 取参数
+
+func RSort(mapArr map[string]any, callback walkCallback) {
+	//获取字典键值
+	keys := Keys(mapArr)
+	//升序
+	sort.Sort(sort.Reverse(keys))
+	//赋值
+	for _, keyName := range keys {
+		callback(mapArr[keyName], keyName)
+	}
+	return
 }

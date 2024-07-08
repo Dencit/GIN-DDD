@@ -2,7 +2,7 @@ package logic
 
 import (
 	UserRepo "app/domain/user/repo"
-	match_query "app/extend/match-query"
+	MatchQuery "app/extend/match-query"
 	"github.com/gin-gonic/gin"
 	"log"
 )
@@ -50,11 +50,11 @@ func (receiver *UserLogic) Read(context *gin.Context, id string) interface{} {
 func (receiver *UserLogic) Index(context *gin.Context, query map[string]any) (interface{}, map[string]any) {
 
 	//主表筛选逻辑-获取query查询表达式参数
-	matchQuery := match_query.Instance(query)
+	matchQuery := MatchQuery.Instance(query)
 	log.Println("query::", query) //
 
 	repo := UserRepo.UserRepo(context)
-	result, mata := repo.Index(matchQuery)
+	result, meta := repo.Index(matchQuery)
 
-	return result, mata
+	return result, meta
 }

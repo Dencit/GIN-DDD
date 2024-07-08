@@ -8,7 +8,7 @@ import (
 	"app/extend/convert/arrs"
 	"app/extend/convert/maps"
 	"app/extend/convert/strs"
-	"app/extend/match-query"
+	MatchQuery "app/extend/match-query"
 	"github.com/gin-gonic/gin"
 	"log"
 	"math"
@@ -110,7 +110,7 @@ func (receiver *SampleRepoStruct) Read(id string) interface{} {
 
 //列表筛选
 
-func (receiver *SampleRepoStruct) Index(matchQuery *match_query.MatchQueryStruct) (interface{}, map[string]any) {
+func (receiver *SampleRepoStruct) Index(matchQuery *MatchQuery.MatchQueryStruct) (any, any) {
 
 	//实例化模型实体
 	var entityList []DemoEntity.Sample
@@ -129,8 +129,8 @@ func (receiver *SampleRepoStruct) Index(matchQuery *match_query.MatchQueryStruct
 	searchArr := matchQuery.Search(rule, filterArr)
 	log.Println("searchArr::", searchArr) //
 	if !maps.IsEmpty(searchArr) {
-		maps.Walk(searchArr, func(value any, key any) {
-			val, key := strs.ToStr(value), strs.ToStr(key)
+		maps.Walk(searchArr, func(value any, keyName any) {
+			val, key := strs.ToStr(value), strs.ToStr(keyName)
 			//自动添加查询条件
 			builder.Where(key, val)
 		})
@@ -158,14 +158,13 @@ func (receiver *SampleRepoStruct) Index(matchQuery *match_query.MatchQueryStruct
 	builder.Order("updated_at Desc")
 
 	//?_pagination = true
-	mata, metaMap := matchQuery.Pagination()
-	if mata.Pagination {
-		builder.Offset(mata.Offset).Limit(mata.PageSize)
-		builder.Count(&mata.Total)
-		metaMap["page_total"] = math.Ceil(float64(mata.Total) / float64(mata.PageSize))
-		metaMap["total"] = mata.Total
-		log.Println("mataStruct", mata) //
-		log.Println("metaMap", metaMap) //
+	meta, metaMap := matchQuery.Pagination()
+	if meta.Pagination {
+		builder.Offset(meta.Offset).Limit(meta.PageSize)
+		builder.Count(&meta.Total)
+		meta.PageTotal = math.Ceil(float64(meta.Total) / float64(meta.PageSize))
+		metaMap["page_total"] = math.Ceil(float64(meta.Total) / float64(meta.PageSize))
+		metaMap["total"] = meta.Total
 	}
 
 	//执行查询
@@ -173,7 +172,7 @@ func (receiver *SampleRepoStruct) Index(matchQuery *match_query.MatchQueryStruct
 	if result.Error != nil {
 		return nil, nil
 	}
-	return entityList, metaMap
+	return entityList, meta
 }
 
 //不存在则拦截

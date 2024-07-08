@@ -2,7 +2,7 @@ package logic
 
 import (
 	DemoRepo "app/domain/demo/repo"
-	match_query "app/extend/match-query"
+	MatchQuery "app/extend/match-query"
 	"github.com/gin-gonic/gin"
 	"log"
 )
@@ -63,13 +63,13 @@ func (receiver *SampleLogic) Read(context *gin.Context, id string) interface{} {
 
 //列表
 
-func (receiver *SampleLogic) Index(context *gin.Context, query map[string]any) (interface{}, map[string]any) {
+func (receiver *SampleLogic) Index(context *gin.Context, query map[string]any) (any, any) {
 	//主表筛选逻辑-获取query查询表达式参数
-	matchQuery := match_query.Instance(query)
+	matchQuery := MatchQuery.Instance(query)
 	log.Println("query::", query) //
 
 	repo := DemoRepo.SampleRepo(context)
-	result, mata := repo.Index(matchQuery)
+	data, meta := repo.Index(matchQuery)
 
-	return result, mata
+	return data, meta
 }

@@ -86,7 +86,6 @@ func (receiver *BaseEntityStruct) Connector(connName string) *gorm.DB {
 		}
 
 		connectorList[connName] = connector
-		log.Println("connectorList[Connector]::", connector) //
 	}
 
 	return connectorList[connName]

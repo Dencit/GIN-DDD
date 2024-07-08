@@ -8,11 +8,20 @@ import (
 notes: 输出类基础
 */
 
+//定义返回结构
+
+type respondStruct struct {
+	Code    uint        `json:"code"`
+	Message string      `json:"message"`
+	Data    interface{} `json:"data"`
+	Meta    interface{} `json:"meta"`
+}
+
 //输出类-接口
 
 type BaseRespondInterface interface {
 	Respond(context *gin.Context, tableEntity interface{}, httpStatus int)
-	RespondCollect(context *gin.Context, tableCollectStruct interface{}, metas map[string]any, httpStatus int)
+	RespondCollect(context *gin.Context, tableCollectStruct any, metas any, httpStatus int)
 }
 
 //输出类-结构
@@ -25,45 +34,35 @@ type BaseRespondStruct struct {
 
 func (receiver *BaseRespondStruct) Respond(context *gin.Context, tableEntity interface{}, httpStatus int) {
 	//定义结构
-	var jsonStruct struct {
-		Code    uint        `json:"code"`
-		Message string      `json:"message"`
-		Data    interface{} `json:"data"`
-		Mata    interface{} `json:"mata"`
-	}
+	var respondJson = &respondStruct{}
 	//默认值
-	jsonStruct.Code = 0
-	jsonStruct.Message = "success"
-	jsonStruct.Data = nil
-	jsonStruct.Mata = nil
+	respondJson.Code = 0
+	respondJson.Message = "success"
+	respondJson.Data = nil
+	respondJson.Meta = nil
 	//数据非空
 	if tableEntity != nil {
-		jsonStruct.Data = tableEntity
+		respondJson.Data = tableEntity
 	}
-	context.JSON(httpStatus, jsonStruct)
+	context.JSON(httpStatus, respondJson)
 	return
 }
 
 //多行输出+meta
 
-func (receiver *BaseRespondStruct) RespondCollect(context *gin.Context, tableCollectStruct interface{}, metas map[string]any, httpStatus int) {
+func (receiver *BaseRespondStruct) RespondCollect(context *gin.Context, tableCollectStruct any, metas any, httpStatus int) {
 	//定义结构
-	var jsonStruct struct {
-		Code    uint        `json:"code"`
-		Message string      `json:"message"`
-		Data    interface{} `json:"data"`
-		Mata    interface{} `json:"mata"`
-	}
+	var respondJson = &respondStruct{}
 	//默认值
-	jsonStruct.Code = 0
-	jsonStruct.Message = "success"
-	jsonStruct.Data = nil
-	jsonStruct.Mata = nil
+	respondJson.Code = 0
+	respondJson.Message = "success"
+	respondJson.Data = nil
+	respondJson.Meta = nil
 	//数据非空
 	if tableCollectStruct != nil {
-		jsonStruct.Data = tableCollectStruct
-		jsonStruct.Mata = metas
+		respondJson.Data = tableCollectStruct
+		respondJson.Meta = metas
 	}
-	context.JSON(httpStatus, jsonStruct)
+	context.JSON(httpStatus, respondJson)
 	return
 }

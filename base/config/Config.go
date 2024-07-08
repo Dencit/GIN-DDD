@@ -1,6 +1,7 @@
 package config
 
 import (
+	"app/extend/convert/strs"
 	"github.com/joho/godotenv"
 	"log"
 	"os"
@@ -21,6 +22,11 @@ type ConnectorStruct struct {
 	Driver string
 	Dsn    string
 }
+type RDBStruct struct {
+	Addr   string
+	Pwd    string
+	Select int
+}
 
 //初始变量
 
@@ -31,6 +37,7 @@ var Database = DatabaseStruct{
 	Master: ConnectorStruct{},
 	Slave:  ConnectorStruct{},
 }
+var Rdb RDBStruct
 
 //初始化-赋值
 
@@ -66,5 +73,10 @@ func init() {
 		Driver: os.Getenv("DB_DRIVER"),
 		Dsn:    os.Getenv("SLAVE_DSN_1"),
 	}
+
+	//redis 设置
+	Rdb.Addr = os.Getenv("RDB_ADDR")
+	Rdb.Pwd = os.Getenv("RDB_PWD")
+	Rdb.Select = strs.ToInt(os.Getenv("RDB_SELECT"))
 
 }
