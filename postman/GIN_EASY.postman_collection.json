@@ -126,7 +126,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{base_url}}/demo/sample/read/1",
+							"raw": "{{base_url}}/demo/sample/read/1?_time=1",
 							"host": [
 								"{{base_url}}"
 							],
@@ -135,6 +135,12 @@
 								"sample",
 								"read",
 								"1"
+							],
+							"query": [
+								{
+									"key": "_time",
+									"value": "1"
+								}
 							]
 						}
 					},
@@ -199,6 +205,41 @@
 					"response": []
 				},
 				{
+					"name": "示例-获取-列表-扩展查询",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/demo/sample/index?_extend=user&user_name",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"demo",
+								"sample",
+								"index"
+							],
+							"query": [
+								{
+									"key": "_extend",
+									"value": "user"
+								},
+								{
+									"key": "user_name",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "示例-获取-列表-筛选",
 					"request": {
 						"method": "GET",
@@ -210,7 +251,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{base_url}}/demo/sample/index?_search=demo&mobile=185*",
+							"raw": "{{base_url}}/demo/sample/index?mobile=185*&_search=demo",
 							"host": [
 								"{{base_url}}"
 							],
@@ -221,6 +262,10 @@
 							],
 							"query": [
 								{
+									"key": "mobile",
+									"value": "185*"
+								},
+								{
 									"key": "_search",
 									"value": "demo"
 								},
@@ -228,10 +273,6 @@
 									"key": "name",
 									"value": "123456",
 									"disabled": true
-								},
-								{
-									"key": "mobile",
-									"value": "185*"
 								}
 							]
 						}
@@ -293,7 +334,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_url}}/demo/sample/index?_page=1&_page_size=50",
+							"raw": "{{base_url}}/demo/sample/index?_page=1&_page_size=50&_time=1",
 							"host": [
 								"{{base_url}}"
 							],
@@ -318,8 +359,7 @@
 								},
 								{
 									"key": "_time",
-									"value": "1",
-									"disabled": true
+									"value": "1"
 								}
 							]
 						}
