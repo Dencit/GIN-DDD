@@ -5,13 +5,20 @@ import (
 	"sort"
 )
 
-// 检查 字典 为空
+/**
+desc: 字典转换
+*/
+
+//检查字典为空
+
 func IsEmpty[K comparable, V comparable](strMap map[K]V) bool {
 	if strMap == nil || len(strMap) == 0 {
 		return true
 	}
 	return false
 }
+
+//检查存在值
 
 func IsSet(string any) bool {
 	str := fmt.Sprintf("%v", string)

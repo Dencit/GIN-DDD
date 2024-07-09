@@ -1,7 +1,7 @@
 package request
 
 import (
-	"app/extend/convert/arrs"
+	"app/extend/convert/arrays"
 	"app/extend/convert/structs"
 	"github.com/gin-gonic/gin"
 	"log"
@@ -61,7 +61,7 @@ func (receiver *QueryRequestStruct) Get(std interface{}) map[string]any {
 		log.Println("SetQuery::", err.Error())
 	}
 	valueQueryMap := structs.ToMap(std)
-	receiver.QueryMap = arrs.Merge(valueQueryMap, receiver.QueryMap)
+	receiver.QueryMap = arrays.Merge(valueQueryMap, receiver.QueryMap)
 	return receiver.QueryMap
 }
 
@@ -73,9 +73,9 @@ func (receiver *QueryRequestStruct) Only(std interface{}, Keys []string) map[str
 		log.Println("SetQuery::", err.Error())
 	}
 	valueQueryMap := structs.ToMap(std)
-	receiver.QueryMap = arrs.Merge(valueQueryMap, receiver.QueryMap)
+	receiver.QueryMap = arrays.Merge(valueQueryMap, receiver.QueryMap)
 	for QueryKey := range receiver.QueryMap {
-		match := arrs.InArray(QueryKey, Keys)
+		match := arrays.InArray(QueryKey, Keys)
 		if match == false {
 			delete(receiver.QueryMap, QueryKey)
 		}
@@ -91,9 +91,9 @@ func (receiver *QueryRequestStruct) Except(std interface{}, Keys []string) map[s
 		log.Println("SetQuery::", err.Error())
 	}
 	valueQueryMap := structs.ToMap(std)
-	receiver.QueryMap = arrs.Merge(valueQueryMap, receiver.QueryMap)
+	receiver.QueryMap = arrays.Merge(valueQueryMap, receiver.QueryMap)
 	for QueryKey := range receiver.QueryMap {
-		match := arrs.InArray(QueryKey, Keys)
+		match := arrays.InArray(QueryKey, Keys)
 		if match == true {
 			delete(receiver.QueryMap, QueryKey)
 		}

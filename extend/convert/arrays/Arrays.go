@@ -1,10 +1,14 @@
-package arrs
+package arrays
 
 import (
-	"app/extend/convert/strs"
+	"app/extend/convert/values"
 	"fmt"
 	"strings"
 )
+
+/**
+desc: 切片数组转换
+*/
 
 //检查 切片数组 为空
 
@@ -38,8 +42,8 @@ func Explode(sep string, orderStr any) []string {
 func Flip(array []any) map[string]any {
 	mapArr := make(map[string]any)
 	for index, value := range array {
-		val := strs.ToStr(value)
-		ind := strs.ToStr(index)
+		val := values.ToString(value)
+		ind := values.ToString(index)
 		mapArr[val] = ind
 	}
 	return mapArr

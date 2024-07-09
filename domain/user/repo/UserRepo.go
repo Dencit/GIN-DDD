@@ -5,9 +5,9 @@ import (
 	"app/base/exception"
 	BaseRepo "app/base/repo"
 	UserEntity "app/domain/user/entity"
-	"app/extend/convert/arrs"
+	"app/extend/convert/arrays"
 	"app/extend/convert/maps"
-	"app/extend/convert/strs"
+	"app/extend/convert/values"
 	MatchQuery "app/extend/match-query"
 	"github.com/gin-gonic/gin"
 	"math"
@@ -41,7 +41,7 @@ func UserRepo(context *gin.Context) *UserRepoStruct {
 
 func (receiver *UserRepoStruct) SaveOrFail(input map[string]any) interface{} {
 	entity := UserEntity.User{
-		Name: strs.ToStr(input["name"]),
+		Name: values.ToString(input["name"]),
 	}
 	builder := UserEntity.UserEntity()
 	result := builder.Create(&entity)
@@ -121,7 +121,7 @@ func (receiver *UserRepoStruct) Index(matchQuery *MatchQuery.MatchQueryStruct) (
 	searchArr := matchQuery.Search(rule, filterArr)
 	if !maps.IsEmpty(searchArr) {
 		maps.Walk(searchArr, func(value any, keyName any) {
-			val, key := strs.ToStr(value), strs.ToStr(keyName)
+			val, key := values.ToString(value), values.ToString(keyName)
 			//自动添加查询条件
 			builder.Where(key, val)
 		})
@@ -132,16 +132,16 @@ func (receiver *UserRepoStruct) Index(matchQuery *MatchQuery.MatchQueryStruct) (
 
 	//?_include=user,info - 副表关联模型,用于数据输出,不是查询条件.
 	includeArr := matchQuery.Include()
-	if !arrs.IsEmpty(includeArr) {
-		arrs.Walk(includeArr, func(value any, index any) {
-			val := strs.ToStr(value)
+	if !arrays.IsEmpty(includeArr) {
+		arrays.Walk(includeArr, func(value any, index any) {
+			val := values.ToString(value)
 			builder.Preload(val)
 		})
 	}
 
 	//?_sort = -id
 	sortStr := matchQuery.Sort()
-	if !strs.IsEmpty(sortStr) {
+	if !values.IsEmpty(sortStr) {
 		builder.Order(sortStr)
 	}
 	//默认排序

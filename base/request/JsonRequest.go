@@ -3,7 +3,7 @@ package request
 import (
 	BaseErr "app/base/err"
 	"app/base/exception"
-	"app/extend/convert/arrs"
+	"app/extend/convert/arrays"
 	"app/extend/convert/structs"
 	"github.com/gin-gonic/gin"
 )
@@ -51,7 +51,7 @@ func (receiver *JsonRequestStruct) Only(std interface{}, Keys []string) map[stri
 	}
 	jsonMap := structs.ToMap(std)
 	for jsonKey := range jsonMap {
-		match := arrs.InArray(jsonKey, Keys)
+		match := arrays.InArray(jsonKey, Keys)
 		if match == false {
 			delete(jsonMap, jsonKey)
 		}
@@ -70,7 +70,7 @@ func (receiver *JsonRequestStruct) Except(std interface{}, Keys []string) map[st
 	}
 	jsonMap := structs.ToMap(std)
 	for jsonKey := range jsonMap {
-		match := arrs.InArray(jsonKey, Keys)
+		match := arrays.InArray(jsonKey, Keys)
 		if match == true {
 			delete(jsonMap, jsonKey)
 		}

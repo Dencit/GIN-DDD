@@ -2,9 +2,9 @@ package api_cache
 
 import (
 	"app/base/config"
-	"app/extend/convert/arrs"
+	"app/extend/convert/arrays"
 	"app/extend/convert/maps"
-	"app/extend/convert/strs"
+	"app/extend/convert/values"
 	JsonTool "app/extend/json-tool"
 	"context"
 	"encoding/json"
@@ -81,7 +81,7 @@ func (receiver ApiCacheStruct) QueryKeyByRequest(requestQuery map[string]any) st
 	//生成get参数key
 	if !maps.IsEmpty(requestQuery) {
 		maps.KSort(requestQuery, func(value any, keyName any) {
-			val, key := strs.ToStr(value), strs.ToStr(keyName)
+			val, key := values.ToString(value), values.ToString(keyName)
 			//不拼接 缓存键
 			if key != "_time" {
 				queryKey += "&" + key + "=" + val
@@ -180,7 +180,7 @@ func (receiver ApiCacheStruct) SetDataByMineKey(hKey string, queryKey string, da
 func (receiver ApiCacheStruct) setDbInfo(hKey string, expire time.Duration) {
 	ctx := receiver.ctx
 	hKeysArr, _ := receiver.rdb.HKeys(ctx, hKey).Result()
-	if arrs.IsEmpty(hKeysArr) {
+	if arrays.IsEmpty(hKeysArr) {
 		//哈希键不存在时,需要先设置过期时间, 作用于所有子键.
 		receiver.rdb.HSet(ctx, hKey, "db_total", 0)
 		receiver.rdb.HSet(ctx, hKey, "db_expire", expire/time.Second)
@@ -196,7 +196,7 @@ func (receiver ApiCacheStruct) updateDbInfo(hKey string) {
 	ctx := receiver.ctx
 	hKeysArr, _ := receiver.rdb.HKeys(ctx, hKey).Result()
 	dbTotal := len(hKeysArr) - 4
-	if !arrs.IsEmpty(hKeysArr) {
+	if !arrays.IsEmpty(hKeysArr) {
 		//哈希键存在时,子数据添加.
 		receiver.rdb.HMSet(ctx, hKey, "db_total", dbTotal)
 		receiver.rdb.HMSet(ctx, hKey, "db_update_time", time.DateTime)
@@ -225,7 +225,7 @@ func (receiver ApiCacheStruct) GetCollect(hKey string, queryKey string) *Result 
 
 	//获取部分键
 	maps.Walk(allData, func(value any, keyName any) {
-		val, key := strs.ToStr(value), strs.ToStr(keyName)
+		val, key := values.ToString(value), values.ToString(keyName)
 		//log.Println("val, key::", val, key) //
 		//正则匹配 连接参数
 		wildcard := ".*"
@@ -261,9 +261,9 @@ func (receiver ApiCacheStruct) DropCollect(hKey string, queryKey string) []strin
 
 	//删除部分键
 	hKeysArr, _ := receiver.rdb.HKeys(ctx, hKey).Result()
-	if !arrs.IsEmpty(hKeysArr) {
-		arrs.Walk(hKeysArr, func(value any, index any) {
-			val := strs.ToStr(value)
+	if !arrays.IsEmpty(hKeysArr) {
+		arrays.Walk(hKeysArr, func(value any, index any) {
+			val := values.ToString(value)
 			//正则匹配 连接参数
 			wildcard := ".*"
 			regex := regexp.MustCompile(wildcard + "(" + queryKey + ")" + wildcard)
@@ -273,7 +273,7 @@ func (receiver ApiCacheStruct) DropCollect(hKey string, queryKey string) []strin
 			}
 		})
 
-		if !arrs.IsEmpty(tempKeysArr) {
+		if !arrays.IsEmpty(tempKeysArr) {
 			log.Println("tempKeysArr::", tempKeysArr) //
 			//批量删除
 			receiver.rdb.HDel(ctx, hKey, tempKeysArr...)

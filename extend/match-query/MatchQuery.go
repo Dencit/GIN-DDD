@@ -1,10 +1,10 @@
 package match_query
 
 import (
-	"app/extend/convert/arrs"
+	"app/extend/convert/arrays"
 	"app/extend/convert/maps"
-	"app/extend/convert/strs"
 	"app/extend/convert/structs"
+	"app/extend/convert/values"
 	"fmt"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
@@ -42,7 +42,7 @@ func Instance(requestQuery map[string]any) *MatchQueryStruct {
 func (receiver *MatchQueryStruct) SearchAction() string {
 	var action string = "default"
 	if receiver.RequestQuery["_search"] != "" {
-		action = strs.ToStr(receiver.RequestQuery["_search"])
+		action = values.ToString(receiver.RequestQuery["_search"])
 	}
 	return action
 }
@@ -58,7 +58,7 @@ func (receiver *MatchQueryStruct) Search(rule map[string]string, filterArr map[s
 		"_sort", "_group", "_time",
 	}
 
-	flipMap := arrs.Flip(outQuery)
+	flipMap := arrays.Flip(outQuery)
 	queryArr := maps.DiffKey(receiver.RequestQuery, flipMap)
 
 	if !maps.IsEmpty(filterArr) {
@@ -67,8 +67,8 @@ func (receiver *MatchQueryStruct) Search(rule map[string]string, filterArr map[s
 	if !maps.IsEmpty(queryArr) {
 		maps.Walk(queryArr, func(value any, keyName any) {
 			//log.Println("back::", value, key)//
-			key := strs.ToStr(keyName)
-			valueName := strs.ToStr(value)
+			key := values.ToString(keyName)
+			valueName := values.ToString(value)
 			operator := "="
 			if maps.IsSet(rule[key]) {
 				operator = rule[key]
@@ -92,8 +92,8 @@ func (receiver *MatchQueryStruct) Search(rule map[string]string, filterArr map[s
 
 func (receiver *MatchQueryStruct) Include() []string {
 	var includeArr []string
-	if !strs.IsEmpty(receiver.RequestQuery["_include"]) {
-		joinStr := strs.ToStr(receiver.RequestQuery["_include"])
+	if !values.IsEmpty(receiver.RequestQuery["_include"]) {
+		joinStr := values.ToString(receiver.RequestQuery["_include"])
 		joinArr := strings.Split(joinStr, ",")
 		//首字母大写
 		loader := cases.Title(language.Und, cases.NoLower)
@@ -142,8 +142,8 @@ func (receiver *MatchQueryStruct) searchOperator(operator string, value any) (st
 
 func (receiver *MatchQueryStruct) Sort() string {
 	sortStr := ""
-	if !strs.IsEmpty(receiver.RequestQuery["_sort"]) {
-		orderStr := strs.ToStr(receiver.RequestQuery["_sort"])
+	if !values.IsEmpty(receiver.RequestQuery["_sort"]) {
+		orderStr := values.ToString(receiver.RequestQuery["_sort"])
 		sortStr = receiver.sortOperator(orderStr)
 	}
 	return sortStr
@@ -152,7 +152,7 @@ func (receiver *MatchQueryStruct) Sort() string {
 // 排序-sort参数转换
 func (receiver *MatchQueryStruct) sortOperator(orderStr string) string {
 	sortStr := ""
-	orderArr := arrs.Explode(",", orderStr)
+	orderArr := arrays.Explode(",", orderStr)
 	orderType := "ASC"
 	for _, value := range orderArr {
 		regex := regexp.MustCompile("^(-|)")
@@ -173,14 +173,14 @@ func (receiver *MatchQueryStruct) Pagination() (metaStruct MetaStruct, metaMap m
 	page, pageSize := 1, 20
 	offset := 100
 	//获取参数
-	if !strs.IsEmpty(receiver.RequestQuery["_pagination"]) {
-		pagination = strs.ToBool(receiver.RequestQuery["_pagination"])
+	if !values.IsEmpty(receiver.RequestQuery["_pagination"]) {
+		pagination = values.ToBool(receiver.RequestQuery["_pagination"])
 	}
-	if !strs.IsEmpty(receiver.RequestQuery["_page"]) {
-		page = strs.ToInt(receiver.RequestQuery["_page"])
+	if !values.IsEmpty(receiver.RequestQuery["_page"]) {
+		page = values.ToInt(receiver.RequestQuery["_page"])
 	}
-	if !strs.IsEmpty(receiver.RequestQuery["_page_size"]) {
-		pageSize = strs.ToInt(receiver.RequestQuery["_page_size"])
+	if !values.IsEmpty(receiver.RequestQuery["_page_size"]) {
+		pageSize = values.ToInt(receiver.RequestQuery["_page_size"])
 	}
 	//限制范围
 	if page < 1 {

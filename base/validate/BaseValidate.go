@@ -3,7 +3,7 @@ package validate
 import (
 	BaseErr "app/base/err"
 	"app/base/exception"
-	"app/extend/convert/strs"
+	"app/extend/convert/values"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 )
@@ -40,7 +40,7 @@ func (receiver *BaseValidateStruct) Command(std interface{}) interface{} {
 	if err != nil {
 		if errors, ok := err.(validator.ValidationErrors); ok {
 			Code, _ := BaseErr.Root("VALIDATION_ERROR")
-			Message := strs.ToStr(errors[0])
+			Message := values.ToString(errors[0])
 			exception.App(receiver.ValCtx, Code, Message)
 		}
 	}

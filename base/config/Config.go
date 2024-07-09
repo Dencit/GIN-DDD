@@ -1,7 +1,7 @@
 package config
 
 import (
-	"app/extend/convert/strs"
+	"app/extend/convert/values"
 	"github.com/joho/godotenv"
 	"log"
 	"os"
@@ -77,6 +77,6 @@ func init() {
 	//redis 设置
 	Rdb.Addr = os.Getenv("RDB_ADDR")
 	Rdb.Pwd = os.Getenv("RDB_PWD")
-	Rdb.Select = strs.ToInt(os.Getenv("RDB_SELECT"))
+	Rdb.Select = values.ToInt(os.Getenv("RDB_SELECT"))
 
 }
