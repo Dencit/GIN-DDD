@@ -1,6 +1,8 @@
 package err
 
-import BaseErr "app/base/err"
+import (
+	BaseErr "app/base/err"
+)
 
 /**
 notes: 根模块-总错误码

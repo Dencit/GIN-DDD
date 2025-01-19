@@ -4,8 +4,8 @@
 ___
 ###  1.项目信息
 
-#### 旧版项目路径: https://dencit.coding.net/public/GIN_EASY/GIN_EASY/git/files (不再迭代)
-#### 原始项目路径: https://dencit.coding.net/public/golang-framework/gin-ddd/git/files (主要版本)
+#### coding项目路径: https://dencit.coding.net/public/golang-framework/gin-ddd/git/files
+#### github项目路径: https://github.com/Dencit/GIN-DDD
 
 #### 作者: Dencit - 陈鸿扬
 #### 邮箱: 632112883@qq.com
@@ -15,8 +15,17 @@ ___
 ~~~
 
 
-main.go [执行应用]
-port [端口/应用层]
+http.go [执行http应用]
+http [端口/应用层]
+  |--- demo [服务模块/示例]
+        |--- controler [控制器][AO层]
+        |--- request [输入拦截][DTO层]
+        |--- query [查询参数][DTO层]
+        |--- trans [输出转化][DTO层]
+        |--- logic [应用逻辑][BO层]
+
+grpc.go [执行grpc应用]
+grpc [端口/应用层]
   |--- demo [服务模块/示例]
         |--- controler [控制器][AO层]
         |--- request [输入拦截][DTO层]
@@ -68,7 +77,7 @@ postman [Postman导出接口]
 |                              |*散弹式业务代码,1次迭代n个地方修改 | |*迭代修改,容易产生关联错误        |                           |
 |                              |                               | |                              |                            |
 |                              |                               | |                              |                            |
-| route --> demo -->           | controler --> logic -->       | | -->                          | entity                     |
+| http --> route -->           | controler --> logic -->       | | -->                          | entity                     |
 |                              |                |              | | --> helper                   | edoc/es_orm                |
 |                              |                |              | | --> common                   | entity(curl/RPC/OpenAPI)   |
 |                              |                |              | |                              |                            |
@@ -82,7 +91,7 @@ postman [Postman导出接口]
 |==========DDD_架构=============|*应用层只组合领域层对象,低代码冗余 | |*高复用代码,solid原则,按模块划分  |*底层对象统一控制             |
 |                              |*高复用方法,不怕应用层拷贝修改     | |*可将MVC业务对象抽出,渐进式重构   |                            |
 |                              |                               | |                              |                            |
-| route --> demo --> port -->  | controler --> request         | |                              |                            |
+| http --> route --> demo -->  | controler --> request         | |                              |                            |
 |                              |   ^               |           | |                              |                            |
 |                              |   |             logic -->     | | -> srv |--> repo -->         | entity                     |
 |                              |   |               |           | |    |   |                     |                            |
@@ -114,10 +123,13 @@ postman [Postman导出接口]
 
 ---
 ### 7.控制台指令
-[./schedule/console.md](./schedule/console.md)
+[./console.md](./console.md)
 
 ---
 ### 8.任务调度
-[./extend/crontab/crontab.md](./extend/crontab/crontab.md)
+[./cron.md](./cron.md)
 
+___
+### 9.grpc-流服务
+[./grpc.md](./grpc.md)
 

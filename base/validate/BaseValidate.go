@@ -1,13 +1,5 @@
 package validate
 
-import (
-	BaseErr "app/base/err"
-	"app/base/exception"
-	"app/extend/convert/values"
-	"github.com/gin-gonic/gin"
-	"github.com/go-playground/validator/v10"
-)
-
 /**
 notes: 输入验证类基础
 */
@@ -21,28 +13,4 @@ type BaseValidateInterface interface {
 
 type BaseValidateStruct struct {
 	BaseValidateInterface
-	ValCtx *gin.Context
-}
-
-//输入验证类-实例
-
-func Check(context *gin.Context) *BaseValidateStruct {
-	instance := &BaseValidateStruct{}
-	instance.ValCtx = context
-	return instance
-}
-
-//加载验证设置
-
-func (receiver *BaseValidateStruct) Command(std interface{}) interface{} {
-	validate := validator.New()
-	err := validate.Struct(std)
-	if err != nil {
-		if errors, ok := err.(validator.ValidationErrors); ok {
-			Code, _ := BaseErr.Root("VALIDATION_ERROR")
-			Message := values.ToString(errors[0])
-			exception.App(receiver.ValCtx, Code, Message)
-		}
-	}
-	return std
 }

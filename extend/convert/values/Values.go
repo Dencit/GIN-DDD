@@ -33,6 +33,17 @@ func ToInt64(obj any) int64 {
 	return _int64
 }
 
+//任意值 转 64位 无符号整型
+
+func ToUint64(obj any) uint64 {
+	objStr := fmt.Sprintf("%v", obj)
+	_uint64, err := strconv.ParseUint(objStr, 10, 64)
+	if err != nil {
+		return 0
+	}
+	return _uint64
+}
+
 //任意值 转 字符串
 
 func ToString(obj any) string {

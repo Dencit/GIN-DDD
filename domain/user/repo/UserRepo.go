@@ -8,7 +8,7 @@ import (
 	"app/extend/convert/arrays"
 	"app/extend/convert/maps"
 	"app/extend/convert/values"
-	MatchQuery "app/extend/match-query"
+	"app/extend/match-query"
 	"github.com/gin-gonic/gin"
 	"math"
 )
@@ -47,7 +47,7 @@ func (receiver *UserRepoStruct) SaveOrFail(input map[string]any) interface{} {
 	result := builder.Create(&entity)
 	if result.Error != nil {
 		Code, Message := BaseErr.Root("SAVE_FAIL")
-		exception.App(Context, Code, Message)
+		exception.HttpExcept(Context, Code, Message)
 		return nil
 	}
 	input["id"] = entity.ID
@@ -62,7 +62,7 @@ func (receiver *UserRepoStruct) UpdateOrFail(id string, input map[string]interfa
 	result := builder.Updates(&input)
 	if result.Error != nil {
 		Code, Message := BaseErr.Root("UPDATE_FAIL")
-		exception.App(Context, Code, Message)
+		exception.HttpExcept(Context, Code, Message)
 		return nil
 	}
 	input["id"] = id
@@ -78,7 +78,7 @@ func (receiver *UserRepoStruct) DeleteOrFail(id string) interface{} {
 	result := builder.Delete(&input)
 	if result.Error != nil {
 		Code, Message := BaseErr.Root("DELETE_FAIL")
-		exception.App(Context, Code, Message)
+		exception.HttpExcept(Context, Code, Message)
 		return nil
 	}
 	input["id"] = id
@@ -102,7 +102,7 @@ func (receiver *UserRepoStruct) Read(id string) interface{} {
 
 //列表筛选
 
-func (receiver *UserRepoStruct) Index(matchQuery *MatchQuery.MatchQueryStruct) (interface{}, map[string]any) {
+func (receiver *UserRepoStruct) Index(matchQuery *match_query.MatchQueryStruct) (interface{}, map[string]any) {
 
 	//实例化模型实体
 	var entityList []UserEntity.User
@@ -175,7 +175,7 @@ func (receiver *UserRepoStruct) IsNotExit(id string) interface{} {
 	if result.Error != nil {
 		//未找到数据
 		Code, Message := BaseErr.Root("ID_IS_NOT_EXIST")
-		exception.App(Context, Code, Message)
+		exception.HttpExcept(Context, Code, Message)
 		return nil
 	}
 	return entity

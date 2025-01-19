@@ -8,8 +8,7 @@ import (
 	"app/extend/convert/arrays"
 	"app/extend/convert/maps"
 	"app/extend/convert/values"
-	MatchQuery "app/extend/match-query"
-	"github.com/gin-gonic/gin"
+	"app/extend/match-query"
 	"log"
 	"math"
 )
@@ -20,10 +19,6 @@ notes: 领域层-仓储类
 调用原则: 向下调用[模型类]
 */
 
-//gin结构
-
-var Context *gin.Context
-
 //仓储结构
 
 type SampleRepoStruct struct {
@@ -32,8 +27,7 @@ type SampleRepoStruct struct {
 
 //仓储实例
 
-func SampleRepo(context *gin.Context) *SampleRepoStruct {
-	Context = context
+func SampleRepo() *SampleRepoStruct {
 	instance := &SampleRepoStruct{&BaseRepo.BaseRepoStruct{}}
 	return instance
 }
@@ -48,7 +42,7 @@ func (receiver *SampleRepoStruct) SaveOrFail(input map[string]any) interface{} {
 	result := builder.Create(&entity)
 	if result.Error != nil {
 		Code, Message := BaseErr.Root("SAVE_FAIL")
-		exception.App(Context, Code, Message)
+		exception.App(Code, Message)
 		return nil
 	}
 	input["id"] = entity.ID
@@ -63,7 +57,7 @@ func (receiver *SampleRepoStruct) UpdateOrFail(id string, input map[string]any) 
 	result := builder.Updates(&input)
 	if result.Error != nil {
 		Code, Message := BaseErr.Root("UPDATE_FAIL")
-		exception.App(Context, Code, Message)
+		exception.App(Code, Message)
 		return nil
 	}
 	input["id"] = id
@@ -79,7 +73,7 @@ func (receiver *SampleRepoStruct) DeleteOrFail(id string) interface{} {
 	result := builder.Delete(&input)
 	if result.Error != nil {
 		Code, Message := BaseErr.Root("DELETE_FAIL")
-		exception.App(Context, Code, Message)
+		exception.App(Code, Message)
 		return nil
 	}
 	input["id"] = id
@@ -94,12 +88,6 @@ func (receiver *SampleRepoStruct) Read(id string) interface{} {
 	builder.Where("id = ?", id)
 	builder.Order("updated_at Desc")
 
-	//ent := UserEntity.User{}      //
-	//bu := UserEntity.UserEntity() //
-	//bu.Where("id = ?", id)        //
-	//res := bu.First(&ent)         //
-	//log.Println("res::", res)     //
-
 	result := builder.First(&entity)
 	if result.Error != nil {
 		//未找到数据
@@ -110,7 +98,7 @@ func (receiver *SampleRepoStruct) Read(id string) interface{} {
 
 //列表筛选
 
-func (receiver *SampleRepoStruct) Index(matchQuery *MatchQuery.MatchQueryStruct) (any, any) {
+func (receiver *SampleRepoStruct) Index(matchQuery *match_query.MatchQueryStruct) (any, any) {
 
 	//实例化模型实体
 	var entityList []DemoEntity.Sample
@@ -185,7 +173,7 @@ func (receiver *SampleRepoStruct) IsNotExit(id string) interface{} {
 	if result.Error != nil {
 		//未找到数据
 		Code, Message := BaseErr.Root("ID_IS_NOT_EXIST")
-		exception.App(Context, Code, Message)
+		exception.App(Code, Message)
 		return nil
 	}
 	return entity

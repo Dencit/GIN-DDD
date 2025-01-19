@@ -1,6 +1,8 @@
 package maps
 
 import (
+	"encoding/json"
+	"errors"
 	"fmt"
 	"sort"
 )
@@ -100,4 +102,18 @@ func RSort(mapArr map[string]any, callback walkCallback) {
 		callback(mapArr[keyName], keyName)
 	}
 	return
+}
+
+//字典转结构
+
+func ToStruct(ParamsMap interface{}, std interface{}) error {
+	jsonStr, err := json.Marshal(ParamsMap)
+	if err != nil {
+		return errors.New("json marshal fail")
+	}
+	err = json.Unmarshal(jsonStr, std)
+	if err != nil {
+		return errors.New("json unmarshal fail " + err.Error())
+	}
+	return nil
 }

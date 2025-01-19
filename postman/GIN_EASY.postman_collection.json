@@ -334,7 +334,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_url}}/demo/sample/index?_page=1&_page_size=50&_time=1",
+							"raw": "{{base_url}}/demo/sample/index?_page=1&_page_size=50",
 							"host": [
 								"{{base_url}}"
 							],
@@ -359,10 +359,19 @@
 								},
 								{
 									"key": "_time",
-									"value": "1"
+									"value": "1",
+									"disabled": true
 								}
 							]
 						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": []
 					},
 					"response": []
 				}
